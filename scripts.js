@@ -18,11 +18,30 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 	});
 });
+
+     // Primeira consulta à API
+	 fetch('https://brasilapi.com.br/api/cnpj/v1/41030394000108')
+	 .then(response => response.json())
+	 .then(data => {
+		 const api1Element = document.getElementById('api1');
+		 api1Element.textContent = `Situação Cadastral: ${data.descricao_situacao_cadastral}`;
+	 })
+	 .catch(error => console.error('Erro na API 1:', error));
+
+ // Segunda consulta à API
+ fetch('https://brasilapi.com.br/api/registrobr/v1/meucarronovo.com.br')
+	 .then(response => response.json())
+	 .then(data => {
+		 const api2Element = document.getElementById('api2');
+		 api2Element.textContent = `Status: ${data.status}`;
+	 })
+	 .catch(error => console.error('Erro na API 2:', error));
+
 // para todas as consultas a api realizar try cath
 // section 1 - consulta ao brasil api
 // primeira consulta a 2 apis sempre mostrando na tela essas 2 consultas
 // 2 primeiras consultas: site verificado meu carro novo
-// e cnpj valido meu carro novo 41.030.394/0001-08
+// e cnpj valido meu carro novo 41030394000108
 
 // segunda consulta a 2 apis porem recebendo 2 parametros de formularios do usuario
 // parametros de consulta: nome do carro na FIPE ver preco

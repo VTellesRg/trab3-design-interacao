@@ -3,7 +3,12 @@ body {
     scroll-behavior: smooth;
     background-color: rgb(152, 152, 172);
   }
-  
+  .footer{
+    background-color: #133;
+    color: white;
+    text-align: center;
+    padding: 10px;
+  }
   .section {
     padding: 80px 0;
     text-align: center;
