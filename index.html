@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <title>Meu Carro Novo!</title>
+    <title>Clima para Viagem!</title>
 </head>
 
 <body>
 
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="#">Meu Carro Novo!</a>
+            <a class="navbar-brand" href="#">Clima para viagem!</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -27,28 +27,28 @@
         </nav>
     </header>
     <div class="container">
-        <p>Loja Meu Carro Novo! CNPJ verificado e ativo!</p>
+        <p>Clima para Viagem! CNPJ verificado e ativo!</p>
         <p id="api1"></p>
-        <p>Loja Meu Carro Novo! site oficial!</p>
+        <p>Clima para Viagem! site oficial!</p>
         <p id="api2"></p>
     </div>
 
     <section id="section1" class="section">
-        <h2>Consulte preços e bancos:</h2>
+        <h2>Consulte Estado e clima da capital:</h2>
         <!-- Conteúdo da Seção 1 -->
         <div class="container">
             <div class="row custom-grid">
                 <form class="col-md-6">
-                    <div class="form-group" id="form-fipe-banco">
-                        <label for="carro">codigo FIPE do carro:</label>
-                        <input type="text" class="form-control" id="carro" name="carro"
-                            placeholder="Insira o codigo FIPE 000000-0">
-                        <!-- <label for="banco">Meu banco faz financiamento?</label>
-                        <input type="text" class="form-control" id="banco" name="banco"
-                            placeholder="Insira o Código do banco"> -->
+                    <div class="form-group" id="form-apis">
+                        <label for="estado">Sigla do Estado</label>
+                        <input type="text" class="form-control" id="estado" name="estado"
+                            placeholder="Insira a sigla">
+                        <label for="cidade">Cidade</label>
+                        <input type="text" class="form-control" id="cidade" name="cidade"
+                            placeholder="Insira o nome da cidade">
                         <button type="submit" class="btn btn-primary">Consultar</button>
                     </div>
-                    <div id="fipe"></div>
+                    <div id="resultado"></div>
             </div>
         </div>
     </section>

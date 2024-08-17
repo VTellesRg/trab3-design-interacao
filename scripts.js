@@ -58,4 +58,18 @@ fetch('https://brasilapi.com.br/api/registrobr/v1/meucarronovo.com.br')
 	})
 	.catch(error => console.error('Erro na API 2:', error));
 
-// Função para consultar a API FIPE e renderizar as informações
+// Função para consultar a API estado cidades e clima da capital
+async function consultarEstadoCidadeClima() {
+	const estado = document.getElementById('estado').value;
+	const cidade = document.getElementById('cidade').value;
+
+	// Consulta ao IBGE para obter a lista de cidades do estado
+	const estadoResponse = await fetch(`https://brasilapi.com.br/api/ibge/uf/v1/${estado}`);
+	const estadoData = await estadoResponse.json();
+	
+
+	// Consulta ao CPTEC para obter a previsão do tempo da capital
+	const climaResponse = await fetch(`https://brasilapi.com.br/api/cptec/v1/cidade/${cidade}`);
+	const climaData = await climaResponse.json();
+	
+}
