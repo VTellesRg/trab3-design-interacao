@@ -31,4 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // cada botão retorna consultas em 3 apis distintas
 //primeiro botao usando promise.race para retornar a primeira consulta que retornar
 //segundo botao usando promise.all para retornar todas as consultas ou mensagem de erro
+// botao usando promise.all retornara api da fipe com carros com 10% de desconto via comando js Map
+// também retornara 
 // em todas as consultas tratar erros com fetch, contornar possiveis erros do usuario
