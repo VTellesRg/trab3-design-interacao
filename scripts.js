@@ -39,37 +39,96 @@
 // em todas as consultas tratar erros com fetch, contornar possiveis erros do usuario
 
 
-
-// Primeira consulta à API
-fetch('https://brasilapi.com.br/api/cnpj/v1/41030394000108')
-	.then(response => response.json())
-	.then(data => {
+// URL do proxy para contornar problemas de CORS
+// const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+// Primeira consulta à API 
+fetch(`https://brasilapi.com.br/api/feriados/v1/2024`)
+    .then(response => response.json())	
+    .then(data => {
+		//renderiza os feriados na tela
 		const api1Element = document.getElementById('api1');
-		api1Element.textContent = `Situação Cadastral: ${data.descricao_situacao_cadastral}`;
-	})
-	.catch(error => console.error('Erro na API 1:', error));
+		data.forEach(item => {        //formata o item data para o padrao brasileiro
+			const formattedDate = new Date(item.date).toLocaleDateString('pt-BR');
+			api1Element.innerHTML += `
+			<div style="display: flex;">
+				<div style="flex: 1;">
+					<div>
+						<p><b>Feriado: ${item.name}</b></p>
+						<p>Data: ${formattedDate}</p>
+						<p>Tipo: ${item.type}</p>
+					</div>
+			</div>`;
+		});
+    })
+    .catch(error => console.error('Erro na API 1:', error));
 
-// Segunda consulta à API
-fetch('https://brasilapi.com.br/api/registrobr/v1/meucarronovo.com.br')
-	.then(response => response.json())
-	.then(data => {
-		const api2Element = document.getElementById('api2');
-		api2Element.textContent = `Status: ${data.status}`;
-	})
-	.catch(error => console.error('Erro na API 2:', error));
+// Segunda consulta à API retorna apenas o item status da api de consulta do registrobr
+fetch(`https://brasilapi.com.br/api/registrobr/v1/viagens.com.br`)
+    .then(response => response.json())
+    .then(data => {
+        const api2Element = document.getElementById('api2');
+        api2Element.textContent = `Status: ${data.status}`;
+    })
+    .catch(error => console.error('Erro na API 2:', error));
 
 // Função para consultar a API estado cidades e clima da capital
-async function consultarEstadoCidadeClima() {
-	const estado = document.getElementById('estado').value;
-	const cidade = document.getElementById('cidade').value;
 
-	// Consulta ao IBGE para obter a lista de cidades do estado
-	const estadoResponse = await fetch(`https://brasilapi.com.br/api/ibge/uf/v1/${estado}`);
-	const estadoData = await estadoResponse.json();
-	
+document.getElementById('cidade').addEventListener('submit', async function (e) {
+		e.preventDefault();
+		// Consulta ao CPTEC para obter a previsão do tempo da capital
+		// primeira chamada da api para encontrar o id da cidade
 
-	// Consulta ao CPTEC para obter a previsão do tempo da capital
-	const climaResponse = await fetch(`https://brasilapi.com.br/api/cptec/v1/cidade/${cidade}`);
-	const climaData = await climaResponse.json();
+	try{	
+		const climaResponse = await fetch(`https://brasilapi.com.br/api/cptec/v1/cidade/${cidade}`);
+		const climaData = climaResponse.json();
+		const cidadeId = climaData.id;
+		const NewclimaResponse = await fetch(`https://brasilapi.com.br/api/cptec/v1/clima/previsao/${cidadeId}`);
+		const NewclimaData = await NewclimaResponse.json();
+		NewclimaData.clima.forEach(item => {
+		const api3Element = document.getElementById('resultado');
+		api3Element.innerHTML += `
+		<div style="display: flex;">
+		<div style="flex: 1;">
+		<div>
+		<p><b>Data: ${item.data}</b></p>
+		<p>Tempo: ${item.condicao_desc}</p>
+		<p>Temperatura mínima: ${item.min}°C</p>
+		<p>Temperatura máxima: ${item.max}°C</p>
+		</div>
+		</div>`;
+		});
+		console.log(NewclimaResponse);
+	}catch(error){
+		console.log('Erro na API 3:', error);
+		
+	}
+	console.log(cidadeId);
+	});
+
+
+//segunda chamada da api para encontrar o clima da cidade
+// async function consultarClima(cidadeId) {
 	
-}
+// 	// Consulta ao CPTEC para obter a previsão do tempo da capital
+// 	const climaResponse = await fetch(`https://brasilapi.com.br/api/cptec/v1/clima/previsao/${cidadeId}`);
+// 	const climaData = await climaResponse.json();
+// 	climaData.clima.forEach(item => {
+// 		const api3Element = document.getElementById('resultado');
+// 		api3Element.innerHTML += `
+// 		<div style="display: flex;">
+// 		<div style="flex: 1;">
+// 		<div>
+// 		<p><b>Data: ${item.data}</b></p>
+// 		<p>Tempo: ${item.condicao_desc}</p>
+// 		<p>Temperatura mínima: ${item.min}°C</p>
+// 		<p>Temperatura máxima: ${item.max}°C</p>
+// 		</div>
+// 		</div>`;
+// 	});
+// 	console.log(climaResponse);
+// 	console.log(climaData);
+// 	console.log(cidadeId);
+	
+	
+	
+// }
