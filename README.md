@@ -13,6 +13,9 @@ Este projeto demonstra como integrar múltiplas APIs usando JavaScript e exibir 
 3. **Utilizar Lógica para Contornar Retornos Blob**: Implementar lógica para contornar retorno não JSON utilizando Blob.
 
 ## Instalação
+[acesse aqui](https://vtellesrg.github.io/trab3-design-interacao/)
+
+ou
 
 1. Clone o repositório:
     ```bash
