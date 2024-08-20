@@ -27,41 +27,52 @@
         </nav>
     </header>
     <div class="container">
-        <p>Clima para Viagem! Datas feriados nacionais deste ano!</p>
-        <p id="api1"></p>
         <p>Clima para Viagem! site oficial!</p>
         <p id="api2"></p>
+        <div class="sidebar">
+            <p>Clima para Viagem! Datas feriados nacionais deste ano!</p>
+        </div>
+        <p id="api1"></p>
     </div>
 
     <section id="section1" class="section">
-        <h2>Consulte Estado e clima da capital:</h2>
+        <h2>Consulte clima da cidade:</h2>
         <!-- Conteúdo da Seção 1 -->
         <div class="container">
             <div class="row custom-grid">
-                <form class="col-md-6">
+                <form class="col-md-6" id="form-clima">
                     <div class="form-group" id="form-apis">
                         <label for="cidade">Informa a cidade:</label>
                         <input type="text" class="form-control" id="cidade" name="cidade"
                             placeholder="Insira o nome da cidade">
-                        <!-- <label for="cidade">Cidade</label>
-                        <input type="text" class="form-control" id="cidade" name="cidade"
-                            placeholder="Insira o nome da cidade"> -->
                         <button type="submit" class="btn btn-primary">Consultar</button>
                     </div>
-                    <div id="resultado"></div>
-            </div>
-        </div>
-    </section>
-
+                </div>
+                <div id="resultado-clima"></div>
+                </form>
+                        <h2>Consulte o código do banco:</h2>
+                        <div class="row custom-grid">
+                            <form class="col-md-6" id="form-banco">
+                                <div class="form-group" id="form-apis">
+                                    <label for="banco">Informa o código de banco:</label>
+                                    <input type="text" class="form-control" id="banco" name="banco"
+                                        placeholder="Insira o código do banco">
+                                    <button type="submit" class="btn btn-primary">Consultar</button>
+                                </div>
+                                <div id="resultado-banco"></div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
     <section id="section2" class="section">
         <h2>Seção 2</h2>
         <!-- Conteúdo da Seção 2 -->
         <div class="container">
             <div class="row custom-grid">
-                <button type="button" class="btn btn-primary">Clique aqui para visualizar carros com 10% de
-                    desconto!!</button>
-                <button type="button" class="btn btn-secondary">clique aqui para visualizar grandes clássicos </button>
-                <button type="button" class="btn btn-success">clique aqui para visualizar lançamentos 2024</button>
+                <button type="button" class="btn btn-primary" id="botao1">Cli</button>
+                <div id="resultado-botao1"></div>
+                <button type="button" class="btn btn-secondary" id="botao2-">cliq</button>
+                <div id="resultado-botao2"></div>
 
             </div>
         </div>

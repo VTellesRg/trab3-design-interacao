@@ -71,64 +71,90 @@ fetch(`https://brasilapi.com.br/api/registrobr/v1/viagens.com.br`)
     })
     .catch(error => console.error('Erro na API 2:', error));
 
-// Função para consultar a API estado cidades e clima da capital
+// Função para consultar a API de clima
 
-document.getElementById('cidade').addEventListener('submit', async function (e) {
-		e.preventDefault();
-		// Consulta ao CPTEC para obter a previsão do tempo da capital
-		// primeira chamada da api para encontrar o id da cidade
+document.getElementById('form-clima').addEventListener('submit', async function (e) {
+    e.preventDefault();
+	// Obter o valor do campo cidade
+    const cidade = document.getElementById('cidade').value;
+    const resultadoClima = document.getElementById('resultado-clima');
+    let cidadeId; // Variável para armazenar o ID da cidade que será obtido na primeira consulta
 
-	try{	
-		const climaResponse = await fetch(`https://brasilapi.com.br/api/cptec/v1/cidade/${cidade}`);
-		const climaData = climaResponse.json();
-		const cidadeId = climaData.id;
-		const NewclimaResponse = await fetch(`https://brasilapi.com.br/api/cptec/v1/clima/previsao/${cidadeId}`);
-		const NewclimaData = await NewclimaResponse.json();
-		NewclimaData.clima.forEach(item => {
-		const api3Element = document.getElementById('resultado');
-		api3Element.innerHTML += `
+    try {    
+        const climaResponse = await fetch(`https://brasilapi.com.br/api/cptec/v1/cidade/${cidade}`);
+        if (!climaResponse.ok) {
+            throw new Error('Cidade não encontrada');
+        }
+        const climaData = await climaResponse.json();
+        cidadeId = climaData[0].id; // essa api retorna um array com um objeto, por isso o [0]
+    } catch (error) {
+        console.log('Erro na API 3:', error);
+        return; // Interrompe a execução se houver um erro
+    }
+	// Segunda chamada à API para obter a previsão do tempo atraves do id da cidade
+    try {
+        const newClimaResponse = await fetch(`https://brasilapi.com.br/api/cptec/v1/clima/previsao/${cidadeId}`);
+        if (!newClimaResponse.ok) {
+            throw new Error('Erro ao obter a previsão do tempo');
+        }
+        const newClimaData = await newClimaResponse.json();
+        const Clima = newClimaData.clima[0]; // essa api retorna um objeto com um array de objetos, por isso o [0]
+        // console.log(Clima); //para debugar (boa parte da dificuldade foi neste ponto)
+		Clima.data = new Date(Clima.data).toLocaleDateString('pt-BR'); //formatar data no formato brasileiro
+		Clima.condicao_desc = new String(Clima.condicao_desc).replace(/_/g, ' '); // formatar a descrição da condição do tempo
+		Clima.min = Clima.min + '°C'; //concatenar o grau celsius
+		Clima.max = Clima.max + '°C';
+        let html = '';
+        // Exibir a previsão do tempo no elemento resultadoClima
+		html += `
 		<div style="display: flex;">
-		<div style="flex: 1;">
-		<div>
-		<p><b>Data: ${item.data}</b></p>
-		<p>Tempo: ${item.condicao_desc}</p>
-		<p>Temperatura mínima: ${item.min}°C</p>
-		<p>Temperatura máxima: ${item.max}°C</p>
-		</div>
+			<div style="flex: 1;">
+				<div>
+					<p><b>Data: ${Clima.data}</b></p>
+					<p>Tempo: ${Clima.condicao_desc}</p>
+					<p>Temperatura mínima: ${Clima.min}</p>
+					<p>Temperatura máxima: ${Clima.max}</p>
+				</div>
+			</div>
 		</div>`;
-		});
-		console.log(NewclimaResponse);
-	}catch(error){
-		console.log('Erro na API 3:', error);
+		resultadoClima.innerHTML = html;
+    } catch (error) {
+        console.log('Erro na API 3.1:', error);
+    }
+});
+
+//segunda chamada da api para encontrar o codigo do  banco
+
+document.getElementById('form-banco').addEventListener('submit', async function (e) {
+	e.preventDefault();
+	const banco = document.getElementById('banco').value;
+	const resultadoBanco = document.getElementById('resultado-banco');
+
+	try {    
+		const bancoResponse = await fetch(`https://brasilapi.com.br/api/banks/v1/${banco}`);
+		if (!bancoResponse.ok) {
+			throw new Error('Estado não encontrado');
+		}
+		const bancoData = await bancoResponse.json();
+		// console.log(bancoData);
 		
+		let html = '';
+		// Exibir informacao do banco no campo resultadoBanco
+		html += `
+		<div style="display: flex;">
+			<div style="flex: 1;">
+				<div>
+					<p><b>Nome: ${bancoData.fullName}</b></p>
+					<p>ISPB: ${bancoData.ispb}</p>
+				</div>
+			</div>
+		</div>`;
+		resultadoBanco.innerHTML = html;
+	} catch (error) {
+		console.log('Erro na API 3:', error);
 	}
-	console.log(cidadeId);
-	});
+});
 
 
-//segunda chamada da api para encontrar o clima da cidade
-// async function consultarClima(cidadeId) {
-	
-// 	// Consulta ao CPTEC para obter a previsão do tempo da capital
-// 	const climaResponse = await fetch(`https://brasilapi.com.br/api/cptec/v1/clima/previsao/${cidadeId}`);
-// 	const climaData = await climaResponse.json();
-// 	climaData.clima.forEach(item => {
-// 		const api3Element = document.getElementById('resultado');
-// 		api3Element.innerHTML += `
-// 		<div style="display: flex;">
-// 		<div style="flex: 1;">
-// 		<div>
-// 		<p><b>Data: ${item.data}</b></p>
-// 		<p>Tempo: ${item.condicao_desc}</p>
-// 		<p>Temperatura mínima: ${item.min}°C</p>
-// 		<p>Temperatura máxima: ${item.max}°C</p>
-// 		</div>
-// 		</div>`;
-// 	});
-// 	console.log(climaResponse);
-// 	console.log(climaData);
-// 	console.log(cidadeId);
-	
-	
-	
-// }
+// seçao 2 promise.all promise.race
+//primeiro botao promise.race
